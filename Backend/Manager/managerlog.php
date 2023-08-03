@@ -1,20 +1,34 @@
+
 <?php
-session_start();
-
+include '../../connection.php';
 // Check if the user is logged in
-if (!isset($_SESSION['manager_user'])) {
 
-    header("location:../Admin/log.php");
-    exit();
+if(isset($_POST['login'])){
+$role=$_POST['role'];
+$username=$_POST['username'];
+$password=$_POST['password'];
+$query ="SELECT * FROM  manager";
+	$run=mysqli_query($conn,$query);
+	while ($result=mysqli_fetch_array($run)){
+	  if( ( $username==$result["USER_NAME"])&&( $password==$result["PASS_WORD"])){
+
+		$_SESSION['manager_user']=$username;
+		$_SESSION['manager_password']=$password;
+		
+		header("location:../Manager/managerhome.php");
+		exit;
+	  }
+	
+	
+	}
+	
+$_SESSION['logedIn'] = "<p style='text-aline: center; color: red;'>Invalid role, user or password</p>";
+
 }
 
-// Rest of the code for the protected page
 
-// Prevent caching
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
-header("Pragma: no-cache");
 ?>
+
 
 
 <!DOCTYPE html>
@@ -52,20 +66,31 @@ header("Pragma: no-cache");
 						<div class="card-body">
 							<h4 class="card-title">Manager Login</h4>
 							<form method="POST" class="my-login-validation" novalidate="">
+							
+		<?php
+      if(isset($_SESSION['logedIn'])) {
+         echo $_SESSION['logedIn'];
+         unset($_SESSION['logedIn']);
+        }
+      ?>
 								<div class="form-group">
 									<label for="username">USER NAME</label>
-									<input id="uname" type="text" class="form-control" name="uername" value="" required autofocus> <br> &nbsp &nbsp  &nbsp  &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp &nbsp  &nbsp  &nbsp  &nbsp
-								<i class="fas fa-pen"></i>	<input type="button" name="" value="Edit" class="button2">&nbsp &nbsp &nbsp  
-								<input type="button" name="" value="Save" class="button" >
+									<input id="uname" type="text" class="form-control" name="username" value="" required autofocus>
+									<!-- <div class="invalid-feedback">
+										Email is invalid
+									</div> -->
 								</div>
 
 								<div class="form-group">
 									<label for="password">PASSWORD
+										<!-- <a href="forgot.html" class="float-right">
+											Forgot Password?
+										</a> -->
 									</label>
-									<input id="password" type="password" class="form-control" name="password" required data-eye> <br> &nbsp &nbsp  &nbsp  &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp &nbsp  &nbsp  &nbsp  &nbsp &nbsp  &nbsp  &nbsp &nbsp &nbsp  &nbsp  &nbsp  &nbsp
-								<i class="fas fa-pen"></i>	<input type="button" name="" value="Edit" class="button2">&nbsp &nbsp &nbsp  
-								<input type="button" name="" value="Save" class="button" >
-								    
+									<input  id="password" type="password" class="form-control" name="password" required data-eye>
+								    <div class="invalid-feedback">
+								    	Password is required
+							    	</div>
 								</div>
 
 								<!-- <div class="form-group">
@@ -76,11 +101,10 @@ header("Pragma: no-cache");
 								</div> -->
 
 								<div class="form-group m-0">
-									<button type="submit" class="btn btn-primary btn-block">
-										save
+									<button type="submit" class="btn btn-primary btn-block" name="login">
+										Login
 									</button>
 								</div>
-								<a href="manager_logout.php">log out</a>
 								<!-- <div class="mt-4 text-center">
 									Don't have an account? <a href="register.html">Create One</a>
 								</div> -->

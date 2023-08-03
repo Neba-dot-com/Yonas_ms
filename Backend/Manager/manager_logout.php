@@ -2,6 +2,6 @@
 
 include ('../../connection.php');
 session_destroy();
-header('location:../Admin/log.php');
+header('location:manager.log.php');
 ?>
 

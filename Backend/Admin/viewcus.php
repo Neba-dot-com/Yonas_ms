@@ -1,20 +1,3 @@
-<?php
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['admin_user'])) {
-
-    header("location:log.php");
-    exit();
-}
-
-// Rest of the code for the protected page
-
-// Prevent caching
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
-header("Pragma: no-cache");
-?>
 
 
 
@@ -76,92 +59,51 @@ header("Pragma: no-cache");
     <!--  -->
     <div class="container">
 
-        <!-- TopBar/Navbar -->
-        <div class="TopBar">
-            <div class="logo">
-                <h1>Yonas <span style="color: white;"><b>M S</b> </span></h1>
-            </div>
+    <?php
+    include 'topbar.php';
+    $page = 'customer';
+// Check if the user is logged in
+if (!isset($_SESSION['admin_user'])) {
 
-            <div class="Search">
-                <input type="text" placeholder="Search Here" name="search">
-                <label for="search"><i class="fas fa-search"></i></label>
-            </div>
+    header("location:log.php");
+    exit();
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action']) && isset($_POST['id'])) {
+        $action = $_POST['action'];
+        $id = $_POST['id'];
 
-            <i class="fas fa-bell"></i>
+        if ($action === 'decline') {
+            $sql = "UPDATE register SET STA_TUS = 'deactive' WHERE ID = $id";
 
-        <div class="user">
-              <a href="approve.html">  <img src="user.jpg" alt="">
-            <div id="notificationButton">
-                <button id="notificationIcon"><i class="fas fa-bell fa-2x"></i></button>
-                <span id="notificationCount">0</span>
-            </div> </a>
-        </div>
+            if ($conn->query($sql) === TRUE) {
+                echo "<script>alert('Record delated successfully');</script>";
+            }
+        } elseif ($action === 'approve') {
+            $sql = "UPDATE register SET STA_TUS = 'approved' WHERE ID = $id";
 
+            if ($conn->query($sql) === TRUE) {
+                echo "<script>alert('Record updated successfully');</script>";
+            }
+        }
+        // Redirect back to the same page after processing the form
+            header("Location: ".$_SERVER['REQUEST_URI']);
+            exit(); // Important: Make sure to exit the script after the header() redirect.
+    }
+}
 
+// Rest of the code for the protected page
 
-        </div>
-        <!-- SideBar -->
-        <div class="SideBar">
-
-            <ul>
-                <li>
-                    <a href="index.php">
-                        <i class="fas fa-th-large"></i>
-                        <div>Dashboard</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fas fa-user-check"></i>
-                        <div> Customer</div>
-                    </a>
-                </li>
-         <!--        <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Customer</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="manager.php">
-                        <i class="fas fa-user-tie"></i>
-                        <div>Store Manager</div>
-                    </a>
-                </li>
-              <!--   <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Manager</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="cashier.html">
-                        <i class="fas fa-cash-register"></i>
-                        <div> Cashier</div>
-                    </a>
-                </li>
-             <!--    <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Cashier</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="sales.html">
-                        <i class="fas fa-briefcase "></i>
-                        <div> SalesMan</div>
-                    </a>
-                </li>
-               <!--   <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate SalesMan</div>
-                    </a>
-                </li> -->
-
-            </ul>
-
-        </div>
+// Prevent caching
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
+header("Pragma: no-cache");
+    ?>
+            <!-- SideBar -->
+            <?php
+            
+            include "sidebar.php";
+            ?>
  <!-- main content for approve customer-->
         
 
@@ -173,6 +115,14 @@ header("Pragma: no-cache");
 
                 <div class="Chart2">
                     <h1>Customers</h1> <br>
+                    <div class="CardM">
+                            <a href="addcus.php"><button style="background:none;">
+                            <span style="color:#088178; hover:black; font-size:18px;"> 
+                            Add New Customer 
+                        </span></button> <i class="fas fa-user" style="color:black;"></i> </a>
+                       
+                 </div>
+                 <br>
                     <div>
                        <table>
                         <tr>
@@ -181,17 +131,64 @@ header("Pragma: no-cache");
                         <th style="background-color:#f5f5f5;"><i class="fas fa-prescription-bottle"></i>Pharmacy Name </th>
                         <th style="background-color:white;"><i class="fas fa-map-marker-alt"></i>Pharmacy Address  </th>
                         <th style="background-color:#f5f5f5;"><i class="fas fa-envelope"></i>Email Address </th>
+                        <th style="background-color:#f5f5f5;">Status</th>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                           <td> <button> <i class="fas fa-user-times" style="color: red;"></i> &nbsp &nbsp Deactivate</button> </td>
-                            <td> <button> <i class="fas fa-user-check" style="color: green;"></i>&nbsp &nbsp Activate</button> </td>
-                        </tr>
+                        <?php
                         
+                        $query = "SELECT * FROM register WHERE STA_TUS <> 'waiting'";
+                        $run = mysqli_query($conn, $query);
+
+                        while ($row = mysqli_fetch_assoc($run)){
+                            $id=$row['ID'];
+                            $firstname=$row['FIRST_NAME'];
+                            $lastname=$row['LAST_NAME'];
+                            $pharmacy_name=$row['PHARMACY_NAME'];
+                            $pharmacy_addr=$row['PHARMACY_ADDRESS'];
+                            $email=$row['EMAIL'];
+                            $status = $row['STA_TUS'];
+                           if($status =='approved'){
+                            $status ='active';
+                           } 
+                            echo "  
+                            <tr>
+                                <td>$firstname</td>
+                                <td>$lastname</td>
+                                <td>$pharmacy_name</td>
+                                <td>$pharmacy_addr</td>
+                                <td>$email</td>
+                                <td>$status</td>
+                                <td>
+                                    <form action='viewcus.php' method='POST' style='border: none;' onsubmit=\"return confirm('Are you sure you want to deactivate this customer?')\">
+                                        <input type='hidden' name='id' value='$id'>
+                                        <button type='submit' name='action' value='decline' style='background: none; border: none;' " . ($status === 'active' ? '' : 'disabled') . ">
+                                            <i class='fas fa-user-times' style='color: red;'></i>Deactivate
+                                        </button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action='viewcus.php' method='POST' style='border: none;' onsubmit=\"return confirm('Are you sure you want to activate this customer?')\">
+                                        <input type='hidden' name='id' value='$id'>
+                                        <button type='submit' name='action' value='approve' style='background: none; border: none;' " . ($status !== 'active' ? '' : 'disabled') . ">
+                                            <i class='fas fa-user-check' style='color: green;'></i>Activate
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        ";
+
+                            
+
+
+                        }
+                        
+                        
+                        ?>
+                         <script>
+                            function confirmAction(message) {
+                                return confirm(message);
+                            }
+                        </script>
+
                        </table> 
                     </div>
                 </div>

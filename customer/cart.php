@@ -154,6 +154,7 @@ function validateNumber() {
           <li><a href="about.php">About</a></li>
           <li><a href="contact.php">Contact</a></li>
           <li><a href="order.php">Order</a></li>
+          <li><a href="blog.php" >Blog</a></li>
           <li class="active">
     <a id="lg-bag" href="cart.php">
         Cart &nbsp;<i class="fas fa-shopping-bag"></i>
@@ -264,11 +265,11 @@ function validateNumber() {
                 <td id="cart-total"><strong><?php echo calculateSubtotal($_SESSION['cart']); ?> ETB</strong></td>
             </tr>
         </table>
-        <button class="normal" id="checkoutBtn">Proceed To Checkout</button>
+        <button class="normal" id= "checkoutBtn" <?php if($_SESSION['cart_count']<=0){echo "disabled";}?>>Proceed To Checkout</button>
 
 <script>
   document.getElementById("checkoutBtn").addEventListener("click", function() {
-    window.location.href = "congratulation.php"; // 
+    window.location.href = "wantD.php"; // 
   });
 </script>
     </div>

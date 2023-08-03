@@ -29,6 +29,7 @@
             <li><a <?php if ($page === 'about') { echo 'class="active"'; } ?> href="about.php">About</a></li>
             <li><a <?php if ($page === 'contact') { echo 'class="active"'; } ?> href="contact.php">Contact</a></li>
             <li><a <?php if ($page === 'order') { echo 'class="active"'; } ?> href="order.php">Order</a></li>
+            <li><a <?php if ($page === 'blog') { echo 'class="active"'; } ?> href="blog.php" >Blog</a></li>
             <li>
     <a id="lg-bag" href="cart.php">
     Cart &nbsp;<i class="fas fa-shopping-bag"></i>

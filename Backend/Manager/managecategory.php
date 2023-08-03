@@ -1,21 +1,4 @@
-<?php
-session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['manager_user'])) {
-
-    header("location:../Admin/log.php");
-    exit();
-}
-
-// Rest of the code for the protected page
-
-// Prevent caching
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
-header("Pragma: no-cache");
-?> 
- 
  
  <!DOCTYPE html>
 <html lang="en">
@@ -72,6 +55,30 @@ header("Pragma: no-cache");
       margin-right: 4px;
       color: #088178;
     }
+/* CSS for the notification container */
+.notification-container {
+    position: fixed;
+    top: 30%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* CSS for the success notification */
+.notification-container.success {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+/* CSS for the error notification */
+.notification-container.error {
+    background-color: #d9534f;
+    color: #fff;
+}
   </style>
 
 </head>
@@ -83,7 +90,44 @@ header("Pragma: no-cache");
 
         <!-- TopBar/Navbar -->
         <?php
-        include 'topbar.php'
+        include "../../connection.php";
+        include 'topbar.php';
+        $page ='Dashboard';
+        if (!isset($_SESSION['manager_user'])) {
+
+          header("location:../Admin/log.php");
+          exit();
+      }
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['action']) && isset($_POST['id'])) {
+            $action = $_POST['action'];
+            $id = $_POST['id'];
+    
+            if ($action === 'decline') {
+                $sql = "DELETE FROM category WHERE ID = $id";
+    
+        
+            // Execute the SQL query
+            $result = mysqli_query($conn, $sql);
+        
+            if ($result === TRUE) {
+                // Set a session variable to indicate success
+                $_SESSION['success_message'] = "One Category" . "<br> Removed successfully!";
+            } else {
+                $error_message = "Error: " . $sql . "<br>" . $conn->error;
+            }
+        
+            
+        
+            // Check if the success_message session variable is set
+            if (isset($_SESSION['success_message'])) {
+                $success_message = $_SESSION['success_message'];
+        
+                // Clear the session variable to prevent reappearing after refreshing
+                unset($_SESSION['success_message']);
+            }
+      }}
+    }
         ?>
 
 
@@ -94,9 +138,18 @@ header("Pragma: no-cache");
         include "sidebar.php"
         ?>
         <div class="MainChartM">
-
+        <?php if (isset($success_message)): ?>
+            <div class="notification-container success">
+                <?php echo $success_message; ?>
+            </div>
+            <script>
+                setTimeout(function() {
+                    document.querySelector('.notification-container').style.transform = 'translateY(-50%) translateX(100%)';
+                }, 3000); // 3000 milliseconds (3 seconds)
+            </script>
+        <?php endif; ?>
                 <div class="ChartM">
- 
+
                     <h1>MANAGE CATEGORIES</h1> 
                         <div class="CardM">
                             <a href="newcategory.php"><button style="background:none;"><span style="color:#088178; hover:black; font-size:18px;"> ADD NEW CATEGORY </span></button> <i class="fas fa-medkit" style="color:black;"></i> </a>
@@ -105,19 +158,59 @@ header("Pragma: no-cache");
                     <div> 
                        <table id="tableM">
                         <tr>
-                        <th>#</th>
                         <th style="background-color:#f5f5f5;"> Name</th>
                         <th style="background-color:white;"> Quantity </th>
                         <th style="background-color:#f5f5f5;">Action</th>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td> 
-                            <td></td>                          
-                            <td> <button style="background: none;"> <i class="fas fa-pen" style="color: blue; "></i> Edit</button> &nbsp &nbsp &nbsp &nbsp 
-                             <button> <i class="fas fa-user-times" style="color: red;"></i>&nbsp  Remove</button> </td>
-                        </tr>
+                        <?php
                         
+                        $sql = "SELECT * FROM category";
+
+      $res = $conn->query($sql);
+
+
+if ($res->num_rows > 0) {
+    while ($result = mysqli_fetch_array($res)) {
+        $id = $result['id'];
+        $category = $result['category'];
+        $image = $result['image'];
+        $description = $result['description'];
+
+        $query_category = "SELECT COUNT(ID) AS number_of_category FROM items where CATEGORY ='$category'";
+        $no_category_result = mysqli_query($conn, $query_category);
+        $row_category = mysqli_fetch_assoc($no_category_result);
+        $no_category = $row_category['number_of_category'];
+
+        echo "
+        <tr>
+                            
+        <td>$category</td> 
+        <td>$no_category</td>                          
+        <td> <button style='background: none;'> <i class='fas fa-pen' style='color: blue; '></i> <a href='edit_category.php?category=$category'>Edit</a></button> &nbsp &nbsp &nbsp &nbsp 
+         </td>
+         <td>
+         <form action='managecategory.php' method='POST' style='border: none;' onsubmit=\"return confirm('Are you sure you want to Remove this Category?')\">
+             <input type='hidden' name='id' value='$id'>
+             <button type='submit' name='action' value='decline' style='background: none; border: none;' >
+                 <i class='fas fa-user-times' style='color: red;'></i> Remove
+             </button>
+         </form>
+     </td>
+    </tr>
+    
+        ";
+    }
+  
+  
+  }
+                        
+                        ?>
+                         <script>
+                            function confirmAction(message) {
+                                return confirm(message);
+                            }
+                        </script>
+
                        </table> 
                 
 

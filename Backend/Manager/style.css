@@ -125,6 +125,33 @@ input{
   color: #088178;
 }
 
+#circle {
+  width: 120px;
+  height: 60px;
+  background-color: black;
+  border: none;
+/*  border-radius: 20%;*/
+  outline: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+
+#notificationCountfeed {
+  position: absolute;
+  top: 378px;
+  right: 80px;
+  width: 40px;
+  height: 20px;
+  background-color: #f39c12;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 30%;
+  text-align: center;
+  line-height: 20px;
+}
+
 #notificationCount {
   position: absolute;
   top: -2px;
@@ -163,7 +190,7 @@ input{
 .SideBar ul li a {
   width: 100%;
   color: #fff;
-  height: 60px;
+  height: 50px;
   display: flex;
   align-items: center;
 }
@@ -226,23 +253,26 @@ input{
   margin-bottom: 5px;
   font-size: 20px;
 }
-
+.active{
+  background: #000;
+}
 .Card:hover {
   background: #000;
   color: #fff;
   cursor: pointer;
 }
 .Card .num {
-  color: var(--main);
+  color:black;
   font-size: 35px;
-  font-weight: 500;
+  font-weight: bolder;
+ 
 }
 .Card .name {
-  font-weight: 600;
-  color: #333;
+  font-weight: 1000;
+  color: darkred;
 }
 .Card:hover .name {
-  color: #fff;
+  color: #000;
 }
 .Card .icon i {
   color: var(--main);
@@ -304,13 +334,7 @@ input{
   font-size: 20px;
 }
 
-.MainChart2 {
-  display: flex;
-  width: 85%;
-  padding: 60px;
-  padding-top: 80px;
- margin-left: 220px;
-}
+
 .MainChart2 .Chart2 {
   background: #fff;
   box-shadow: var(--box_shadow);
@@ -318,6 +342,14 @@ input{
   border-radius: 10px;
   width: 100%;
   max-height: 100%;
+}
+.MainChart2 {
+  display: flex;
+  width: 85%;
+  padding: 60px;
+  padding-top: 20px;
+ margin-left: 220px;
+ margin-top: 0px;
 }
 .MainChart2 .Chart2 h1 {
   text-align: center;

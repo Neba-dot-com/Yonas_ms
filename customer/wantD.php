@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delivery Details</title>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("background-image.jpg"); /* Replace with your blurred background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        #popup-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        #blur-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+        }
+
+        /* Add more CSS styles as needed */
+    </style>
+</head>
+<body>
+    <!-- Your delivery details form here -->
+
+    <!-- Pop-up HTML -->
+    <div id="blur-overlay"></div>
+    <div id="popup-container">
+        <h2>Delivery Options</h2>
+        <p>Would you like us to arrange delivery for your order?</p>
+        <button onclick="redirectToDeliveryPage()">Yes</button>
+        <button onclick="redirectToNoDeliveryPage()">No</button>
+    </div>
+
+    <script>
+        // JavaScript functions to redirect based on user selection
+        function redirectToDeliveryPage() {
+            // If "Yes" is clicked, redirect to the delivery page
+            window.location.href = "delivery.php"; // Replace with the URL of your delivery page
+        }
+
+        function redirectToNoDeliveryPage() {
+            // If "No" is clicked, redirect to the no delivery page
+            window.location.href = "cart.php"; // Replace with the URL of your no delivery page
+        }
+
+        // Show the pop-up when the page loads (you can use a different event to trigger the pop-up)
+        window.onload = function() {
+            document.getElementById("popup-container").style.display = "block";
+            document.getElementById("blur-overlay").style.display = "block";
+        };
+    </script>
+</body>
+</html>

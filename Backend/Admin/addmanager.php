@@ -1,20 +1,4 @@
-<?php
-session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['admin_user'])) {
-
-    header("location:log.php");
-    exit();
-}
-
-// Rest of the code for the protected page
-
-// Prevent caching
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
-header("Pragma: no-cache");
-?>
 
 
 <!DOCTYPE html>
@@ -77,70 +61,48 @@ form .box2{
     <!--  -->
     <?php
 include 'topbar.php';
+$page = 'manager';
 
+// Check if the user is logged in
+if (!isset($_SESSION['admin_user'])) {
+
+    header("location:log.php");
+    exit();
+}
+ 
+                // Rest of the code for the protected page
+                if(isset($_POST['save'])){
+                    $firstName = $_POST['first_name'];
+                    $lastName = $_POST['last_name'];
+                    $userName = $_POST['user_name'];
+                    $password = $_POST['pass_word'];
+                    $salary = $_POST['salary'];
+                    $email = $_POST['email'];
+                    $phoneNumber = $_POST['phone_number'];
+                    $gender = $_POST['gender'];
+                    $date = $_POST['date'];
+                
+                    $sql = "INSERT INTO manager (FIRST_NAME, LAST_NAME, USER_NAME, PASS_WORD, EMAIL, PHONE_NO, SALARY, GENDAR, BIRTH_DATE,STA_TUS) VALUES
+                    ('$firstName', '$lastName', '$userName', '$password', '$email', '$phoneNumber', '$salary', '$gender', '$date','active')";
+                
+                    // Execute the SQL query
+                    $result = mysqli_query($conn, $sql); // Replace $connection with your actual database connection variable.
+                
+                    if ($result) {
+                        // Insertion successful, display an alert message using JavaScript
+                        echo '<script>alert("Data inserted successfully!");</script>';
+                    } else {
+                        // Insertion failed, display an alert message with the error
+                        echo '<script>alert("Error: ' . mysqli_error($connection) . '");</script>'; // Replace $connection with your actual database connection variable.
+                    }
+                }
+// Prevent caching
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
+header("Pragma: no-cache");
 ?>
         <!-- SideBar -->
-        <div class="SideBar">
-
-            <ul>
-                <li>
-                    <a href="index.php">
-                        <i class="fas fa-th-large"></i>
-                        <div>Dashboard</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="viewcus.php">
-                        <i class="fas fa-user-check"></i>
-                        <div> Customer</div>
-                    </a>
-                </li>
-         <!--        <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Customer</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="manager.php">
-                        <i class="fas fa-user-tie"></i>
-                        <div>Store Manager</div>
-                    </a>
-                </li>
-              <!--   <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Manager</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="cashier.php">
-                        <i class="fas fa-cash-register"></i>
-                        <div> Cashier</div>
-                    </a>
-                </li>
-             <!--    <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Cashier</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="sales.html">
-                        <i class="fas fa-briefcase "></i>
-                        <div> SalesMan</div>
-                    </a>
-                </li>
-               <!--   <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate SalesMan</div>
-                    </a>
-                </li> -->
-
-            </ul>
-
-        </div>
+       <?php include "sidebar.php";?>
  <!-- main content for approve customer-->
         
 
@@ -152,29 +114,29 @@ include 'topbar.php';
 
                 <div class="Chart2">
                     <div>
-                       <form> <h1>ADD NEW Manager</h1> <br>
+                       <form action="addmanager.php" method="POST" > <h1>ADD NEW Manager</h1> <br>
                             <label>First Name:&nbsp &nbsp</label> <br>
-                            <input type="text" name="" class="box2" required> <br>
+                            <input type="text" name="first_name" class="box2" required> <br>
                             <label>Last Name:&nbsp &nbsp</label>  <br> 
-                            <input type="text" name="" class="box2" required><br>
+                            <input type="text" name="last_name" class="box2" required><br>
                             <label>User Name:&nbsp &nbsp</label> <br>
-                            <input type="text" name="" class="box2" required> <br> 
+                            <input type="text" name="user_name" class="box2" required> <br> 
                             <label>Password:&nbsp &nbsp</label> <br> 
-                            <input type="password" name="" class="box2" required>  <br>
+                            <input type="password" name="pass_word" class="box2" required>  <br>
                             <label>Email:&nbsp &nbsp</label> <br>
-                            <input type="email" name="" class="box2" required>  <br>
+                            <input type="email" name="email" class="box2" required>  <br>
                             <label>Phone Number:&nbsp &nbsp</label> <br>
-                            <input type="tel" name="" class="box2" required> <br> 
+                            <input type="tel" name="phone_number" class="box2" required> <br> 
                             <label>Salary:&nbsp &nbsp</label> <br>
-                            <input type="number" name="" class="box2" required><br>
+                            <input type="number" name="salary" class="box2" required><br>
                             <label>Gender:&nbsp &nbsp</label> <br>
-                            <select class="box2">
-                                <option>Male</option>
-                                <option>Female</option>
+                            <select  name="gender" class="box2">
+                                <option value="male" >Male</option>
+                                <option value="female">Female</option>
                             </select> <br> 
-                            <label>Age:&nbsp &nbsp</label> <br> 
-                            <input type="date" name="" class="box2" required> <br>  
-                         <i class="fas fa-save"></i>   <input type="submit" name="" value="Save">  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            <label>Date of birth:&nbsp &nbsp</label> <br> 
+                            <input type="date" name="date" class="box2" required> <br>  
+                         <i class="fas fa-save"></i>   <input type="submit" name="save" value="Save">  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                             <input type="reset" name="" value="Reset">
                         </form>
                     </div>

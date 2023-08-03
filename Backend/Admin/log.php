@@ -4,11 +4,10 @@ include '../../connection.php';
 // Check if the user is logged in
 
 if(isset($_POST['login'])){
-$role=$_POST['role'];
+
 $username=$_POST['username'];
 $password=$_POST['password'];
-if($role==='Admin'){
-	$query ="SELECT * FROM  admin";
+$query ="SELECT * FROM  admin";
 	$run=mysqli_query($conn,$query);
 	while ($result=mysqli_fetch_array($run)){
 	  if( ( $username==$result["USER_NAME"])&&( $password==$result["PASS_WORD"])){
@@ -22,25 +21,7 @@ if($role==='Admin'){
 	
 	
 	}
-	
-}
-else if($role==='Manager'){
-	$query ="SELECT * FROM  manager";
-	$run=mysqli_query($conn,$query);
-	while ($result=mysqli_fetch_array($run)){
-	  if( ( $username==$result["USER_NAME"])&&( $password==$result["PASS_WORD"])){
 
-		$_SESSION['manager_user']=$username;
-		$_SESSION['manager_password']=$password;
-		
-		header("location:../Manager/managerhome.php");
-		exit;
-	  }
-	
-	
-	}
-	
-}
 $_SESSION['logedIn'] = "<p style='text-aline: center; color: red;'>Invalid role, user or password</p>";
 
 }
@@ -72,15 +53,9 @@ $_SESSION['logedIn'] = "<p style='text-aline: center; color: red;'>Invalid role,
 					</div>
 					<div class="card fat">
 						<div class="card-body">
-							<h4 class="card-title">Login</h4>
+							<h4 class="card-title">Admin Login</h4>
 							<form method="POST" class="my-login-validation" novalidate="">
-							<select name="role" id="role">
-								<option >Choose Role</option>
-								<option value="Admin">Admin</option>
-								<option value="Manager">Manager</option>
-								<option value="Casheir">Cashier</option>
-								<option value="Sales_man">Sales_Man</option>
-							</select> <br> <br>
+							
 		<?php
       if(isset($_SESSION['logedIn'])) {
          echo $_SESSION['logedIn'];

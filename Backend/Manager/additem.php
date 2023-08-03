@@ -1,10 +1,98 @@
-<?php
 
-include '../../connection.php';
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+    <!-- Link Style CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <title>Manager Dashboard</title>
+    <style type="text/css">
+        .new hover{
+            background-color: none;
+        }
+    </style>
+    
+    <style>
+:root{
+    --green:#088178;
+    --black:#444;
+    --light-color:#777;
+    --box-shadow:.5rem .5rem 0 rgba(22, 160, 133, .2);
+    --text-shadow:.4rem .4rem 0 rgba(0, 0, 0, .2);
+    --border:.2rem solid var(--green);
+}
+    form{
+    flex:1 1 35rem;
+    background: #fff;
+    border:var(--border);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    padding: 2rem;
+    border-radius: .5rem;
+}
+form .box2{
+    width: 60%;
+    margin:.5rem 0;
+    border-radius: .6rem;
+    border:var(--border);
+    font-size: 1.0 rem;
+    color: var(--black);
+    text-transform: none;
+    padding: 1rem;
+}
+
+  </style>
+      <style>
+        /* CSS for the notification container */
+        .notification-container {
+            position: fixed;
+            top: 30%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* CSS for the success notification */
+        .notification-container.success {
+            background-color: #5cb85c;
+            color: #fff;
+        }
+
+        /* CSS for the error notification */
+        .notification-container.error {
+            background-color: #d9534f;
+            color: #fff;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!--  -->
+    <div class="container">
+
+        <!-- TopBar/Navbar -->
+        <?php
+    include 'topbar.php';
+
 
 // Check if the user is logged in
 if (!isset($_SESSION['manager_user'])) {
-    header("location: ../Admin/log.php");
+    header("location: manager.php");
     exit();
 }
 
@@ -105,96 +193,7 @@ $conn->close();
 
 ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Link Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
-
-    <!-- Link Style CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <title>Manager Dashboard</title>
-    <style type="text/css">
-        .new hover{
-            background-color: none;
-        }
-    </style>
     
-    <style>
-:root{
-    --green:#088178;
-    --black:#444;
-    --light-color:#777;
-    --box-shadow:.5rem .5rem 0 rgba(22, 160, 133, .2);
-    --text-shadow:.4rem .4rem 0 rgba(0, 0, 0, .2);
-    --border:.2rem solid var(--green);
-}
-    form{
-    flex:1 1 35rem;
-    background: #fff;
-    border:var(--border);
-    box-shadow: var(--box-shadow);
-    text-align: center;
-    padding: 2rem;
-    border-radius: .5rem;
-}
-form .box2{
-    width: 60%;
-    margin:.5rem 0;
-    border-radius: .6rem;
-    border:var(--border);
-    font-size: 1.0 rem;
-    color: var(--black);
-    text-transform: none;
-    padding: 1rem;
-}
-
-  </style>
-      <style>
-        /* CSS for the notification container */
-        .notification-container {
-            position: fixed;
-            top: 30%;
-            right: 0;
-            transform: translateY(-50%);
-            background-color: #f2f2f2;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        /* CSS for the success notification */
-        .notification-container.success {
-            background-color: #5cb85c;
-            color: #fff;
-        }
-
-        /* CSS for the error notification */
-        .notification-container.error {
-            background-color: #d9534f;
-            color: #fff;
-        }
-    </style>
-
-</head>
-
-<body>
-
-    <!--  -->
-    <div class="container">
-
-        <!-- TopBar/Navbar -->
-        <?php
-        include 'topbar.php'
-        ?>
 
 
     </div>
@@ -251,15 +250,29 @@ form .box2{
                             </select> <br>
                             <label>Select Category:&nbsp &nbsp</label> <br>
                             <select class="box2" name="category" required>
+
                             <option selected disabled>Select Category</option>
-                                <option>Syrup</option>
-                                <option>Syringe</option>
-                                <option>Capsules</option>
-                                <option>Tablets</option>
-                                <option>Injection</option>
-                                <option>Baby Product</option>
-                                <option>Skin Care</option>
-                                <option>Others</option>
+                            <?php
+                                        
+                                        $sql = "SELECT * FROM category";
+                                        $res = $conn->query($sql);
+                                        
+                                        
+                                        if ($res->num_rows > 0) {
+                                            while ($result = mysqli_fetch_array($res)) {
+                                                $id = $result['id'];
+                                                $category  = $result['category'];
+                                                $image = $result['image'];
+                                                $description = $result['description'];
+                                            
+                                            echo "<option>$category</option>";
+                                            
+                                            }}
+                                        
+                            
+                            ?>
+                                
+
                             </select> <br> 
                             <label>Suplier:&nbsp &nbsp</label> <br>
                             <input type="text" name="supplier" class="box2" required> <br> 
@@ -269,16 +282,16 @@ form .box2{
                             <textarea cols="24" name="detail_info" rows="8" class="box2" required></textarea> <br> <br>
         
                             <label for="main_image">Main Image:</label>
-                            <input type="file" id="main_image" name="main_image" accept="image/*" required>
+                            <input type="file" id="main_image" name="main_image" accept="image/*" required style="border: none;">
                             <br> <br> <br>
                             <label for="alt_image1">Alternative Image 1:</label>
-                            <input type="file" id="alt_image1" name="alt_image1" accept="image/*" required>
+                            <input type="file" id="alt_image1" name="alt_image1" accept="image/*" required style="border: none;">
                             <br><br> <br>
                             <label for="alt_image2">Alternative Image 2:</label>
-                            <input type="file" id="alt_image2" name="alt_image2" accept="image/*" required>
+                            <input type="file" id="alt_image2" name="alt_image2" accept="image/*" required style="border: none;">
                             <br><br> <br>
                             <label for="alt_image3">Alternative Image 3:</label>
-                            <input type="file" id="alt_image3" name="alt_image3" accept="image/*" required>
+                            <input type="file" id="alt_image3" name="alt_image3" accept="image/*" required style="border: none;">
                             <br><br> <br>
                          <i class="fas fa-save"></i>   <input type="submit" name="save" value="Save">  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                             <input type="reset" name="" value="Reset">

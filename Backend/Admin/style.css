@@ -139,7 +139,9 @@ input{
   text-align: center;
   line-height: 20px;
 }
-
+.active{
+  background: #000;
+}
 /* SideBar */
 .SideBar {
   position: fixed;
@@ -148,9 +150,10 @@ input{
   width: 260px;
   overflow-x: hidden;
   height: calc(100% - 60px);
-  z-index: 10000;
+  z-index: 100; /* Add a lower z-index to place the sidebar below other elements */
   box-shadow: var(--box_shadow);
 }
+
 .SideBar ul {
   margin-top: 10px;
 }
@@ -207,8 +210,9 @@ input{
 
 .MainChartM {
   display: flex;
-  width: 85%;
+  width: 100%;
   padding: 60px;
+  padding-left: 10px;
   padding-top: 80px;
  margin-left: 220px;
 }
@@ -219,6 +223,7 @@ input{
   border-radius: 10px;
   width: 100%;
   max-height: 100%;
+  overflow: auto; /* Enable scrolling when the table overflows */
 }
 .MainChartM .ChartM h1 {
   text-align: center;
@@ -306,19 +311,23 @@ input{
 
 .MainChart2 {
   display: flex;
-  width: 85%;
+  width: 95%;
   padding: 60px;
   padding-top: 80px;
- margin-left: 220px;
+  margin-left: 220px; /* Adjust this margin to push the content away from the sidebar */
 }
+
 .MainChart2 .Chart2 {
   background: #fff;
   box-shadow: var(--box_shadow);
   padding: 60px;
   border-radius: 10px;
   width: 100%;
-  max-height: 100%;
+  overflow-x: auto;
+  z-index: 1; /* Add this z-index to place the image above the sidebar */
 }
+
+
 .MainChart2 .Chart2 h1 {
   text-align: center;
   color: #333;

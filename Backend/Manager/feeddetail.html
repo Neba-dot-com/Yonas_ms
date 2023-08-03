@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+    <!-- Link Style CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <title>Feedback</title>
+    <style type="text/css">
+        .new hover{
+            background-color: none;
+        }
+
+        .b{
+            color: green;
+        }
+
+        .box2{
+            color: blue;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!--  -->
+    <div class="container">
+
+        <!-- TopBar/Navbar -->
+        <div class="TopBar">
+            <div class="logo">
+                <h1>Yonas <span style="color: white;"><b>M S</b> </span></h1>
+            </div>
+
+            <div class="Search">
+                <input type="text" placeholder="Search Here" name="search">
+                <label for="search"><i class="fas fa-search"></i></label>
+            </div>
+
+            <i class="fas fa-bell"></i>
+
+        <div class="user">
+              <a href="managerlog.html">   <img src="manager.png" alt=""> </a>
+           <a href="expired.html"> <div id="notificationButton">
+                <button id="notificationIcon"><i class="fas fa-bell fa-2x"></i></button> <a>
+                <span id="notificationCount">0</span>
+            </div>
+        </div>
+            
+
+
+
+        </div>
+        <!-- SideBar -->
+        <div class="SideBar">
+
+            <ul>
+                <li>
+                    <a href="managerhome.html">
+                        <i class="fas fa-th-large"></i>
+                        <div>Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="all.html">
+                        <i class="fas fa-eye"></i>
+                        <div> View Available Items</div>
+                    </a>
+                </li>
+         <!--        <li>
+                    <a href="#">
+                        <i class="fas fa-user-times"></i>
+                        <div>Deactivate Customer</div>
+                    </a>
+                </li> -->
+                <li>
+                    <a href="additem.html">
+                        <i class="fas fa-plus"></i>
+                        <div>Add New Item</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="blog.html">
+                        <i class="fas fa-blog"></i>
+                        <div>Blog</div>
+                    </a>
+                </li> 
+                <li>
+                    <a href="report.html">
+                        <i class="fas fa-flag"></i>
+                        <div> Report</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="transaction.html">
+                        <i class="fas fa-exchange-alt"></i>
+                        <div>Transaction</div>
+                    </a>
+                </li> 
+                <li>
+                    <a href="feed.html">
+                        <i class="fas fa-comment "></i>
+                        <div> Feedback</div>
+                    </a>
+                </li>
+               <!--   <li>
+                    <a href="#">
+                        <i class="fas fa-user-times"></i>
+                        <div>Deactivate SalesMan</div>
+                    </a>
+                </li> -->
+
+            </ul>
+
+        </div>
+
+<!-- main content for approve customer-->
+        
+
+        <!-- Main Content -->
+
+         <div class="MainChartM">
+
+                <div class="ChartM">
+                            <label>Name:&nbsp &nbsp</label>
+                            <lable type="text" name="" class="box2"> </lable> <br>
+                            <label>Email:&nbsp &nbsp</label>
+                            <lable class="box2"></lable> <br> 
+                            <label>Gender:&nbsp &nbsp</label>
+                            <lable class="box2"></lable> <br>
+                            <label>Profession (Work):&nbsp &nbsp</label>
+                            <lable class="box2"></lable> <br>
+                             
+                             <label>Degree of Satisfaction:&nbsp &nbsp</label> 
+                            <lable class="box2"></lable> <br>
+                            <label>Primary purpose of visit:&nbsp &nbsp</label> 
+                            <label class="box2"> </label><br>
+
+                            <label>Find Products:&nbsp &nbsp</label>
+                            <lable type="text" name="" class="box2"> </lable> <br> 
+                            <label>Product rate:&nbsp &nbsp</label>
+                            <lable class="box2"></lable> <br> 
+                             
+                             <label>Technical Issue:&nbsp &nbsp</label>
+                            <lable class="box2"></lable> <br> 
+                            <label>Checkout and payment process:&nbsp &nbsp</label>
+                            <label class="box2"> </label><br>
+
+                            <label>Delivery Servies rate:&nbsp &nbsp</label>
+                            <lable type="text" name="" class="box2"> </lable> <br> 
+                            <label>Suggested Improvments:&nbsp &nbsp</label>
+                            <lable class="box2"></lable> <br>
+                             
+                            <label>Recommend us to others:&nbsp &nbsp</label>
+                            <lable class="box2"></lable> <br> 
+                            <label>Found us on:&nbsp &nbsp</label>
+                            <label class="box2"> </label><br>
+                            <label>Comment:&nbsp &nbsp</label>
+                            <label class="box2"> </label><br> <br>
+                      &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp<input type="button" value="Respond" class="b"> &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp<input type="button" value="Post" class="b"> &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp&nbsp &nbsp
+                            <input type="button" value="Delete" class="b">
+                        
+
+            </div>
+        </div>
+            </div>
+
+       
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="show.js"></script>
+    <script src="chart2.js"></script>
+    </body>
+    <html>

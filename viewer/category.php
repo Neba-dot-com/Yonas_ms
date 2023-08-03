@@ -57,6 +57,7 @@ include '../connection.php'
   <a href="home.php">home</a>
   <a href="vabout.php">about us</a>
   <a href="vcontact.php">contact us</a>
+  <a href="med.php">Med Guide</a>
   <a href="login.php">Login</a>    
 </header>
             <section id="page-header" style="background-image:url('img/banner/s4.jpg'); background-repeat: no-repeat; background-position:center;">

@@ -1,20 +1,3 @@
-<?php
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['manager_user'])) {
-
-    header("location:../Admin/log.php");
-    exit();
-}
-
-// Rest of the code for the protected page
-
-// Prevent caching
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
-header("Pragma: no-cache");
-?>
 
 
 <!DOCTYPE html>
@@ -36,6 +19,8 @@ header("Pragma: no-cache");
         .new hover{
             background-color: none;
         }
+        
+
     </style>
 
 </head>
@@ -43,15 +28,18 @@ header("Pragma: no-cache");
 <body>
 
     <!--  -->
-    <div class="container">
+         <div class="container">
 
         <!-- TopBar/Navbar -->
-        <?php
-        include 'topbar.php'
-        ?>
+<?php include "topbar.php";
+$page ='Dashboard';
+// Check if the user is logged in
+if (!isset($_SESSION['manager_user'])) {
 
-
-    </div>
+    header("location:managerlog.php");
+    exit();
+}
+?>
         <!-- SideBar -->
         <?php 
         
@@ -64,105 +52,61 @@ header("Pragma: no-cache");
         <div class="Main1">
 
             <div class="MainCard1">
+            <?php
+$sql = "SELECT * FROM category ";
+$res = $conn->query($sql);
 
-                <div class="Card">
-                    <a href="tablets.php"> <div class="content">
-                    <div class="icon">
-                        <i class="fas fa-tablets"></i>
+
+if ($res->num_rows > 0) {
+    while ($result = mysqli_fetch_array($res)) {
+        $id = $result['id'];
+        $category = $result['category'];
+        $image = $result['image'];
+        $description = $result['description'];
+
+        $query_category = "SELECT COUNT(ID) AS number_of_category FROM items where CATEGORY ='$category'AND   EXPIRE_DATE > CURDATE()";
+        $no_category_result = mysqli_query($conn, $query_category);
+        $row_category = mysqli_fetch_assoc($no_category_result);
+        $no_category = $row_category['number_of_category'];
+        echo "
+        <div class='Card' style=\"background-image: url('../../images/$image'); background-repeat: no-repeat; background-position: center; background-size: cover; color: #ffffff;\">
+            <a href='category_desplay.php?category=$category'>
+                <div class='content'>
+                    <div class='icon'>
+                        <!-- Add your icon content here -->
                     </div>
-                        <div class="num"><span style="text-color:black;">Tablets </span></div>
-                        <div class="name"></div>
-                        <div class="name">20</div>
-                    </div> </a>
-                  
-                </div> 
-
-                <div class="Card">
-                   <a href="capsules.php"> <div class="content">
-                    <div class="icon">
-                        <i class="fas fa-capsules"></i>
-                    </div>
-                        <div class="num">Capsules</div>
-                        <div class="name"></div>
-                    </div> </a>
-                 
-                </div> 
-
-                 <div class="Card">
-                    <a href="syringe.php"> <div class="content">
-                    <div class="icon">
-                        <i class="fas fa-syringe"></i>
-                    </div>
-                        <div class="num">Syringe</div>
-                        <div class="name"></div>
-                    </div> </a>
-              
-                </div> 
+                    <div class='num'><span style='color: black;'>$category</span></div>
+                    <div class='name'><span id='circle'>$no_category</span></div>
+                </div>
+            </a>
+        </div>
+        ";
+    }
+}
+?>
 
 
-               <div class="Card">
-                    <a href="baby.php"> <div class="content">
-                    <div class="icon">
-                        <i class="fas fa-baby"></i>
-                    </div>
-                        <div class="num">Baby Products</div>
-                        <div class="name"></div>
-                    </div> </a>
-                   
-                </div> 
-
-                <div class="Card">
-                    <a href="syrup.php"> <div class="content">
-                    <div class="icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                        <div class="num">Syrup</div>
-                        <div class="name"></div>
-                    </div> </a>
-                   
-                </div> 
-
-                <div class="Card">
-                  <a href="skin.php">  <div class="content">
-                     <div class="icon">
-                        <i class="fas fa-spa"></i>
-                    </div>
-                        <div class="num">Skin care</div>
-                        <div class="name"></div>
-                    </div> </a>
-                   
-                </div> 
-
-               <div class="Card">
-                   <a href="injection.php">    <div class="content">
-                  <div class="icon">
-                        <i class="fas fa-syringe"></i>
-                    </div>
-                    
-                        <div class="num">Injection</div>
-                        <div class="name"></div>
-                    </div> </a>
-                   
-                </div> 
-
-                <div class="Card">
-                    <a href="other.php"> <div class="icon">
+                <div class="Card" style="background-image: url('images/all.webp');background-repeat: no-repeat; background-position: center; background-size: cover; scolor: #ffffff;">
+                    <a href="category_desplay.php?category=All"> <div class="icon">
                          <div class="content">
-                        <i class="fas fa-ellipsis-h"></i>
+                  
                     </div>
                    
-                        <div class="num">Others</div>
-                        <div class="name"></div>
+                        <div class="num">All</div>
+                        <?php
+                        
+                        $query_category = "SELECT COUNT(ID) AS number_of_category FROM items where  EXPIRE_DATE > CURDATE()";
+                        $no_category_result = mysqli_query($conn, $query_category);
+                        $row_category = mysqli_fetch_assoc($no_category_result);
+                        $no_category = $row_category['number_of_category'];
+                       echo "<div class='name'><span id='circle'>$no_category </span></div>";
+                        ?>
+                        
                     </div> </a>
                     
                 </div> <br> <br> 
 
-                    <div><br> <br> 
-                     <div class="new"> <a href="newcategory.php">  <button class="num" style="  border-radius: 3px; border-color: blue; border: 1;"><span style="color:blue; font-size: 23px; "><i class="fas fa-plus"></i> <br>Add new Category  </span> </button> </div> </a>  
-                    </div> 
-                        <div> <br> <br> 
-                        <div> <a href="managecategory.php"><button class="num" style=" border-radius: 3px;"><span style="color:blue; font-size: 23px;"> <i class="fas fa-gear"></i> <br>Manage Categories  </span></button> </div> </a>
-                      </div>  
+
                     
                 
 
@@ -170,8 +114,29 @@ header("Pragma: no-cache");
 
 
             </div>
+            <div>
+            <div style="display: flex;">
+    <div style="margin-right: 10px;">
+        <a href="newcategory.php">
+            <button class="num" style="border-radius: 3px; border-color: blue; border: 1;">
+                <span style="color: blue; font-size: 23px;">
+                    <i class="fas fa-plus"></i> <br>Add new Category
+                </span>
+            </button>
+        </a>
+    </div>
 
-            <!-- Charts -->
+    <div>
+        <a href="managecategory.php">
+            <button class="num" style="border-radius: 3px;">
+                <span style="color: blue; font-size: 23px;">
+                    <i class="fas fa-gear"></i> <br>Manage Categories
+                </span>
+            </button>
+        </a>
+    </div>
+</div>
+
 
     
 

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+    <!-- Link Style CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <title>Search Med Guide</title>
+    <style type="text/css">
+        .new hover{
+            background-color: none;
+        }
+         .new hover{
+            background-color: none;
+        }
+
+        .Card:hover {
+  background:#088178;
+  color: #000;
+  cursor: pointer;
+}
+#blog {
+  padding: 150px 150px 0 150px;
+}
+
+#blog .blog-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  padding-bottom: 100px;
+}
+
+#blog img {
+  width: 45%;
+  height: 270px;
+  object-fit: fit;
+}
+
+#blog .blog-img{
+  width: 50%;
+  margin-right: 40px;
+}
+
+#blog .blog-details {
+  width: 50%;
+}
+
+#blog .blog-details a{
+  text-decoration: none;
+  font-size: 11px;
+  color: #000;
+  font-weight: 700;
+  position: relative;
+  transition: 0.3s;
+}
+
+#blog .blog-details a::after{
+  content: "";
+  width: 50px;
+  height: 1px;
+  background-color: #000;
+  position: absolute;
+  top: 4px;
+  right: -60px;
+}
+
+#blog .blog-details a:hover{
+  color: #088178;
+}
+
+#blog .blog-details a:hover::after{
+  background-color:#088178 ;
+}
+
+#blog .blog-box h1{
+  position: absolute;
+  top: -40px;
+  left: 0;
+  font-size: 70px;
+  font-weight: 700;
+  color: #c9cbce;
+  z-index: -9;
+}
+
+pagination{
+  text-align: center; 
+}
+
+#pagination a{
+  text-decoration: none;
+  background-color: #088178;
+  padding: 15px 20px;
+  border-radius: 4px;
+  color: #ffff;
+  font-weight: 600;
+}
+
+#pagination a i{
+  font-size: 16px;
+  font-weight: 600;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+    <!--  -->
+    <div class="container">
+
+        <!-- TopBar/Navbar -->
+        <div class="TopBar">
+            <div class="logo">
+                <h1>Yonas <span style="color: white;"><b>M S</b> </span></h1>
+            </div>
+
+            <div class="Search">
+                <input type="text" placeholder="Search Here" name="search">
+                <label for="search"><i class="fas fa-search"></i></label>
+            </div>
+
+            <i class="fas fa-bell"></i>
+
+        <div class="user">
+              <a href="managerlog.html">   <img src="manager.png" alt=""> </a>
+           <a href="expired.html"> <div id="notificationButton">
+                <button id="notificationIcon"><i class="fas fa-bell fa-2x"></i></button> <a>
+                <span id="notificationCount">0</span>
+            </div>
+        </div>
+            
+
+
+
+        </div>
+        <!-- SideBar -->
+<div class="SideBar">
+
+            <ul>
+                <li>
+                    <a href="managerhome.html">
+                        <i class="fas fa-th-large"></i>
+                        <div>Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="all.html">
+                        <i class="fas fa-eye"></i>
+                        <div> View Available Items</div>
+                    </a>
+                </li>
+      
+                <li>
+                    <a href="additem.html">
+                        <i class="fas fa-plus"></i>
+                        <div>Add New Item</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="blog.html">
+                        <i class="fas fa-blog"></i>
+                        <div>Blog</div>
+                    </a>
+                </li> 
+                <li>
+                    <a href="report.html">
+                        <i class="fas fa-flag"></i>
+                        <div> Report</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="transaction.html">
+                        <i class="fas fa-exchange-alt"></i>
+                        <div>Transaction</div>
+                    </a>
+                </li> 
+                <li>
+                    <a href="feed.html">
+                        <i class="fas fa-comment "></i>
+                        <div> Feedback <span id="notificationCountfeed"> NEW</span></div>
+                    </a>
+                </li>
+               <li>
+                    <a href="sales.html">
+                        <i class="fas fa-dollar-sign"></i>
+                        <div>Sales</div>
+                    </a>
+                </li> 
+
+                <li>
+                    <a href="rate.html">
+                        <i class="fas fa-star"></i>
+                        <div>Rating</div>
+                    </a>
+                </li> 
+
+                <li>
+                    <a href="med.html">
+                        <i class="fas fa-book"></i>
+                        <div>Med Guide</div>
+                    </a>
+                </li> 
+
+            </ul>
+
+</div>
+
+<div class="Main1">
+
+<section id="blog">
+     <div class="blog-box">
+        <div class="blog-img">
+            <img src="img/Baby/b10a.jpg" alt="no image ">
+        </div>
+         <div class="blog-details">
+             <h4>Fluconazole </h4>
+             <label><b>Generic Name:&nbsp &nbsp</b></label>
+             <label>fluconazole (oral/injection) [ floo-KOE-na-zole ]</label> <br>
+             <label><b>Drug class:&nbsp &nbsp</b></label>
+             <label>Azole antifungals</label> <br> <br> <br>
+          <a href="meddetail.html"><button style="align-self: center; color: #088178; font-size:15px; background-color:#fff;">DETAIL</button></a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
+        <a href="editmed.html"><button style="align-self: center; color: blue; font-size:15px; background-color:#fff;">EDIT</button></a>
+         </div>
+        </div>
+
+
+       <div class="blog-box">
+        <div class="blog-img">
+            <img src="img/Baby/b10a.jpg" alt="no image ">
+        </div>
+         <div class="blog-details">
+             <h4>Fluconazole </h4>
+             <label><b>Generic Name:&nbsp &nbsp</b></label>
+             <label>fluconazole (oral/injection) [ floo-KOE-na-zole ]</label> <br>
+             <label><b>Drug class:&nbsp &nbsp</b></label>
+             <label>Azole antifungals</label> <br> <br> <br>
+          <a href="meddetail.html"><button style="align-self: center; color: #088178; font-size:15px; background-color:#fff;">DETAIL</button></a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
+        <a href="editmed.html"><button style="align-self: center; color: blue; font-size:15px; background-color:#fff;">EDIT</button></a>
+         </div>
+        </div> 
+
+             <div class="blog-box">
+        <div class="blog-img">
+            <img src="img/Baby/b10a.jpg" alt="no image ">
+        </div>
+         <div class="blog-details">
+             <h4>Fluconazole </h4>
+             <label><b>Generic Name:&nbsp &nbsp</b></label>
+             <label>fluconazole (oral/injection) [ floo-KOE-na-zole ]</label> <br>
+             <label><b>Drug class:&nbsp &nbsp</b></label>
+             <label>Azole antifungals</label> <br> <br> <br>
+          <a href="meddetail.html"><button style="align-self: center; color: #088178; font-size:15px; background-color:#fff;">DETAIL</button></a> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
+        <a href="editmed.html"><button style="align-self: center; color: blue; font-size:15px; background-color:#fff;">EDIT</button></a>
+         </div>
+        </div>
+ </section>
+
+  <section id="pagination" class="section-p1">
+     &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp
+         <a href="#">1</a>
+         <a href="#">2</a>
+        <a href="#"><i class="fal fa-long-arrow-alt-right"></i></a>
+    </section> <br> <br> <br>
+</div>
+</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="show.js"></script>
+    <script src="chart2.js"></script>
+
+</body>
+
+</html>

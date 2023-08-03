@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rate Us</title>
+    <style type="text/css">
+        /* Common CSS styles for both pages */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #a2e7af; /* Light green background color */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: 100px;
+    background-image: url('https://emojicombos.com/emoji🎉🌟/');
+    background-repeat: repeat;
+}
+
+/* Rating container styles */
+.rating-container {
+    background-color: #34495e; /* Dark blue box color */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    text-align: center;
+    color: #fff; /* Text color */
+}
+
+.rating-heading {
+    color: #2ecc71;
+    margin-bottom: 10px;
+}
+
+.rating-subheading {
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+/* Style for the stars */
+.stars {
+    display: flex;
+    font-size: 30px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.star {
+    color: #ccc;
+    margin-right: 5px;
+}
+
+.star.active {
+    color: gold;
+}
+
+/* Style for the buttons */
+.action-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+    border: none;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.cancel-button {
+    background-color: #e74c3c;
+}
+
+.save-button {
+    background-color: #3498db;
+}
+
+/* Thanks for Your Rating Pop-up styles */
+.thanks-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none;
+}
+
+.thanks-content {
+    background-color: #2ecc71; /* Green box color */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    text-align: center;
+    color: #fff; /* Text color */
+}
+
+.thanks-emojis {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.thanks-heading {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.thanks-message {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Style for the close button in the pop-up */
+.close-button {
+    background-color: #e74c3c; /* Red close button */
+    margin-top: 20px;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Rating container -->
+    <div class="rating-container" id="ratingPage">
+        <h2 class="rating-heading">Rate Us</h2>
+        <p class="rating-subheading">Please give us your rating:</p>
+        <div class="stars" id="starRating">
+            <span class="star" onclick="rateStar(1)">&#9733;</span>
+            <span class="star" onclick="rateStar(2)">&#9733;</span>
+            <span class="star" onclick="rateStar(3)">&#9733;</span>
+            <span class="star" onclick="rateStar(4)">&#9733;</span>
+            <span class="star" onclick="rateStar(5)">&#9733;</span>
+        </div>
+        <div class="buttons">
+            <a href="index.html"><button class="action-button cancel-button" onclick="cancelRating()">Cancel</button></a>
+            <button class="action-button save-button" onclick="showThanksPopup()">Save</button>
+        </div>
+    </div>
+
+    <!-- Thanks for Your Rating Pop-up -->
+    <div class="thanks-popup" id="thanksPopup">
+        <div class="thanks-emojis">❤️🎉🌟</div>
+        <div class="thanks-content">
+            <h2 class="thanks-heading">Thanks for Your Rating!</h2>
+            <p class="thanks-message">We really appreciate your feedback.</p>
+<a href="index.html"><button class="action-button close-button" onclick="hideThanksPopup()">Close</button></a>
+        </div>
+    </div>
+
+    <script>
+        function rateStar(rating) {
+            const stars = document.getElementsByClassName('star');
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].classList.remove('active');
+            }
+            for (let i = 0; i < rating; i++) {
+                stars[i].classList.add('active');
+            }
+            console.log("Selected Rating:", rating);
+        }
+
+        function cancelRating() {
+            // Redirect to another page when Cancel button is clicked
+            window.location.href = "cancel.html";
+        }
+
+        function showThanksPopup() {
+            // Hide the rating page and show the Thanks pop-up
+            document.getElementById("ratingPage").style.display = "none";
+            document.getElementById("thanksPopup").style.display = "flex";
+        }
+
+        function hideThanksPopup() {
+            // Hide the Thanks pop-up and show the rating page again
+            document.getElementById("ratingPage").style.display = "flex";
+            document.getElementById("thanksPopup").style.display = "none";
+        }
+        
+    </script>
+</body>
+</html>

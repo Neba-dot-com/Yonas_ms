@@ -1,20 +1,3 @@
-<?php
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['admin_user'])) {
-
-    header("location:log.php");
-    exit();
-}
-
-// Rest of the code for the protected page
-
-// Prevent caching
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
-header("Pragma: no-cache");
-?>
 
 
 
@@ -71,6 +54,19 @@ header("Pragma: no-cache");
       color: #088178;
     }
 
+    #tableM input[type='text'] {
+    border: none; /* Remove the border */
+    background-color: transparent; /* Make the input background transparent */
+    font-size: 12px; /* Adjust the font size as per your requirement */
+    width: 100px; /* Set a minimum width for the input fields */
+    min-width: 100px; /* Set a minimum width for the input fields */
+    resize: both; /* Allow the input fields to be resizable */
+  }
+
+  /* Style for the table row in edit mode */
+  tr.edit-mode {
+    background-color: #f2f2f2; /* Add some background color to indicate edit mode */
+  }
 
   </style>
 </head>
@@ -80,70 +76,39 @@ header("Pragma: no-cache");
     <!--  -->
     <?php
 include 'topbar.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+$page = 'manager';
+if (!isset($_SESSION['admin_user'])) {
+    header("location:log.php");
+    exit();
+}
+if (isset($_POST['action']) && isset($_POST['id'])) {
+    $action = $_POST['action'];
+    $id = $_POST['id'];
+
+    if ($action === 'decline') {
+        $sql = "UPDATE manager SET STA_TUS = 'deactive' WHERE ID = $id";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Record delated successfully');</script>";
+        }
+    } elseif ($action === 'approve') {
+        $sql = "UPDATE manager SET STA_TUS = 'active' WHERE ID = $id";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Record updated successfully');</script>";
+        }
+    }
+    // Redirect back to the same page after processing the form
+        header("Location: ".$_SERVER['REQUEST_URI']);
+        exit(); // Important: Make sure to exit the script after the header() redirect.
+}
 
 ?>
+
         <!-- SideBar -->
-        <div class="SideBar">
-
-            <ul>
-                <li>
-                    <a href="index.php">
-                        <i class="fas fa-th-large"></i>
-                        <div>Dashboard</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="viewcus.php">
-                        <i class="fas fa-user-check"></i>
-                        <div> Customer</div>
-                    </a>
-                </li>
-         <!--        <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Customer</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="#">
-                        <i class="fas fa-user-tie"></i>
-                        <div>Store Manager</div>
-                    </a>
-                </li>
-              <!--   <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Manager</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="cashier.php">
-                        <i class="fas fa-cash-register"></i>
-                        <div> Cashier</div>
-                    </a>
-                </li>
-             <!--    <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Cashier</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="sales.php">
-                        <i class="fas fa-briefcase "></i>
-                        <div> SalesMan</div>
-                    </a>
-                </li>
-               <!--   <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate SalesMan</div>
-                    </a>
-                </li> -->
-
-            </ul>
-
-        </div>
+        <?php include "sidebar.php";?>
  <!-- main content for approve customer-->
        
 
@@ -160,7 +125,9 @@ include 'topbar.php';
                             <a href="addmanager.php"><button style="background:none;"><span style="color:#088178; hover:black; font-size:18px;"> Add New Manager </span></button> <i class="fas fa-user-tie" style="color:black;"></i> </a>
                        
                </div>  <br>
+   
                     <div> 
+                   
                        <table id="tableM">
                         <tr>
                         <th style="background-color:#f5f5f5;"><i class="fas fa-user-tie"></i>First Name</th>
@@ -171,26 +138,152 @@ include 'topbar.php';
                         <th><i class="fas fa-envelope"></i>Email</th>
                         <th style="background-color:#f5f5f5;"><i class="fas fa-phone"></i>Phone Number</th>
                         <th><i class="fas fa-venus-mars"></i>Gender</th>
-                        <th style="background-color:#f5f5f5;"><i class="fas fa-clock"></i>Age</th>
-                        <th><i class="fas fa-pen">
-                        </i>Edit</th>
+                        <th style="background-color:#f5f5f5;"><i class="fas fa-clock"></i>Date of birth</th>
+                        <th><br>Status</th>
+                        <!-- <th><i class="fas fa-pen"></i>Edit</th> -->
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                           <td> <button style="background: none;"> <i class="fas fa-pen" style="color: blue; "></i></button> </td>
-                            <td> <button> <i class="fas fa-user-times" style="color: red;"></i>&nbsp Deactivate</button> </td>
-                        </tr>
-                        
+                            <?php
+                        $sql = "SELECT * FROM manager ";
+                        $run = mysqli_query($conn, $sql);
+
+                      
+
+                        while ($row = mysqli_fetch_array($run)) {
+                            $id=$row['ID'];
+                            $firstname = $row['FIRST_NAME'];
+                            $lastname = $row['LAST_NAME'];
+                            $username = $row['USER_NAME'];
+                            $password = $row['PASS_WORD'];
+                            $email = $row['EMAIL'];
+                            $phone_num = $row['PHONE_NO'];
+                            $salary = $row['SALARY'];
+                            $gender = $row['GENDAR'];
+                            $birthdate = $row['BIRTH_DATE'];
+                            $status = $row['STA_TUS'];
+                            $managerID = $row['ID'];
+
+                            echo "
+                            <tr>
+                            <form class='manager-form' method='POST'>
+                                <td><input type='text' name='firstname' value='$firstname' disabled></td>
+                                <td><input type='text' name='lastname' value='$lastname' disabled></td>
+                                <td><input type='text' name='username' value='$username' disabled></td>
+                                <td><input type='text' name='password' value='$password' disabled></td>
+                                <td><input type='text' name='salary' value='$salary' disabled></td>
+                                <td><input type='text' name='email' value='$email' disabled></td>
+                                <td><input type='text' name='phone_num' value='$phone_num' disabled></td>
+                                <td><input type='text' name='gender' value='$gender' disabled></td>
+                                <td><input type='text' name='birthdate' value='$birthdate' disabled></td>
+                                <td>$status</td>
+                                <td>
+                                    <button class='edit-btn' data-manager-id='$managerID' style='background: none;'>
+                                        <i class='fas fa-pen' style='color: blue;'></i>&nbsp;Edit
+                                    </button>
+                                    <button class='save-btn' style='display: none;'>
+                                        <i class='fas fa-save' style='color: green;'></i>&nbsp;Save
+                                    </button>
+                                </td>
+                                </form>
+                                <td>
+                                <form action='manager.php' method='POST' style='border: none;' onsubmit=\"return confirm('Are you sure you want to deactivate this manager?')\">
+                                    <input type='hidden' name='id' value='$id'>
+                                    <button type='submit' name='action' value='decline' style='background: none; border: none;' " . ($status === 'active' ? '' : 'disabled') . ">
+                                        <i class='fas fa-user-times' style='color: red;'></i>Deactivate
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action='manager.php' method='POST' style='border: none;' onsubmit=\"return confirm('Are you sure you want to activate this manager?')\">
+                                    <input type='hidden' name='id' value='$id'>
+                                    <button type='submit' name='action' value='approve' style='background: none; border: none;' " . ($status !== 'active' ? '' : 'disabled') . ">
+                                        <i class='fas fa-user-check' style='color: green;'></i>Activate
+                                    </button>
+                                </form>
+                            </td>
+                            </tr>";
+                        }
+
+                         // Close the form tag
+                        ?>
+
                        </table> 
-                
+                       
+
+                       <!-- Add the below script to your HTML file, after the PHP code -->
+                <!-- Place the below script at the bottom of manager.php -->
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    function sendDataToServer(row) {
+      var managerID = row.find(".edit-btn").data("manager-id");
+      var firstName = row.find("input[name='firstname']").val();
+      var lastName = row.find("input[name='lastname']").val();
+      var username = row.find("input[name='username']").val();
+      var password = row.find("input[name='password']").val();
+      var salary = row.find("input[name='salary']").val();
+      var email = row.find("input[name='email']").val();
+      var phone_num = row.find("input[name='phone_num']").val();
+      var gender = row.find("input[name='gender']").val();
+      var birthdate = row.find("input[name='birthdate']").val();
+
+      // AJAX POST request to send the data to the server (update_manager.php)
+      $.ajax({
+        url: "update_cashier.php",
+        method: "POST",
+        data: {
+          manager_id: managerID,
+          firstname: firstName,
+          lastname: lastName,
+          username: username,
+          password: password,
+          salary: salary,
+          email: email,
+          phone_num: phone_num,
+          gender: gender,
+          birthdate: birthdate
+        },
+        dataType: "json",
+        success: function(response) {
+          // Handle the response from the server
+          if (response.status === "success") {
+            // If the update was successful, show the success message
+            alert(response.message);
+
+            // After successful response, hide the save button and show the edit button
+            row.find(".save-btn").hide();
+            row.find(".edit-btn").show();
+            row.find("input[type='text']").prop("disabled", true); // Disable inputs
+          } else {
+            // If there was an error, show the error message
+            alert("Error: " + response.message);
+          }
+        },
+        error: function(xhr, status, error) {
+          // Handle any errors that occur during the AJAX request
+          console.error("AJAX Error:", error);
+          alert("An error occurred while processing the request.");
+        }
+      });
+    }
+
+    $(".edit-btn").on("click", function(event) {
+      event.preventDefault();
+      var row = $(this).closest("tr");
+      row.find(".edit-btn").hide();
+      row.find(".save-btn").show();
+      row.find("input[type='text']").prop("disabled", false); // Enable inputs for editing
+    });
+
+    $(".save-btn").on("click", function(event) {
+      event.preventDefault();
+      var row = $(this).closest("tr");
+      sendDataToServer(row); // Only send data to the server and update buttons after successful response
+    });
+  });
+</script>
+
+
+
 
 
             </div>

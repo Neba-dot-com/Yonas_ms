@@ -31,6 +31,7 @@ include "../connection.php"
   <a href="home.php">home</a>
   <a href="vabout.php">about us</a>
   <a href="vcontact.php">contact us</a>
+  <a href="med.php">Med Guide</a>
   <a href="login.php">Login</a>    
 </header>
 
@@ -70,7 +71,7 @@ if($res->num_rows >0){
         $description = $result['description'];
 
         echo "
-        <div class=\"box\" style=\"background-image: url('images/$image'); background-repeat: no-repeat; background-position: center; background-size: cover; color: #ffffff;\">
+        <div class=\"box\" style=\"background-image: url('../images/$image'); background-repeat: no-repeat; background-position: center; background-size: cover; color: #ffffff;\">
             <i class=\"fa fa-capsules\"></i>
             <h3 style=\"color: darkblue;\">$category</h3>
             <span style=\"color: #000000; font-weight: bold; font-size: 14px;\">$description</span><br>

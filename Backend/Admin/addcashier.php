@@ -1,20 +1,4 @@
-<?php
-session_start();
 
-// Check if the user is logged in
-if (!isset($_SESSION['admin_user'])) {
-
-    header("location:log.php");
-    exit();
-}
-
-// Rest of the code for the protected page
-
-// Prevent caching
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Expires: Thu, 01 Jan 1970 00:00:00 GMT");
-header("Pragma: no-cache");
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,42 +16,66 @@ header("Pragma: no-cache");
 
     <title>Dashboard</title>
        <style>
-:root{
-    --green:#088178;
-    --black:#444;
-    --light-color:#777;
-    --box-shadow:.5rem .5rem 0 rgba(22, 160, 133, .2);
-    --text-shadow:.4rem .4rem 0 rgba(0, 0, 0, .2);
-    --border:.2rem solid var(--green);
+:root {
+    --green: #088178;
+    --black: #444;
+    --light-color: #777;
+    --box-shadow: .5rem .5rem 0 rgba(22, 160, 133, .2);
+    --text-shadow: .4rem .4rem 0 rgba(0, 0, 0, .2);
+    --border: .2rem solid var(--green);
 }
-    form{
-    flex:1 1 35rem;
+
+form {
+    flex: 1 1 35rem;
     background: #fff;
-    border:var(--border);
+    border: var(--border);
     box-shadow: var(--box-shadow);
     text-align: center;
     padding: 2rem;
     border-radius: .5rem;
-/*    align-items: center;*/
+    /*    align-items: center;*/
     align-self: center;
 }
-form .box2{
+
+form .box2 {
     width: 60%;
-    margin:.5rem 0;
+    margin: .5rem 0;
     border-radius: .6rem;
-    border:var(--border);
+    border: var(--border);
     font-size: 0.9rem;
     color: var(--black);
     text-transform: none;
     padding: 1rem;
 }
-.MainChart2{
+
+.MainChart2 {
     width: 70%;
 }
-/*.MainChart2 .Chart2{
-    width: 70%;
-}*/
 
+/* CSS for the notification container */
+.notification-container {
+    position: fixed;
+    top: 30%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* CSS for the success notification */
+.notification-container.success {
+    background-color: #5cb85c;
+    color: #fff;
+}
+
+/* CSS for the error notification */
+.notification-container.error {
+    background-color: #d9534f;
+    color: #fff;
+}
   </style>
 </head>
 
@@ -76,70 +84,50 @@ form .box2{
     <!--  -->
     <?php
 include 'topbar.php';
+$page="cashier";
+if (!isset($_SESSION['admin_user'])) {
+    header("location:log.php");
+    exit();
+}
 
+if(isset($_POST['save'])){
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $userName = $_POST['user_name'];
+    $password = $_POST['pass_word'];
+    $salary = $_POST['salary'];
+    $email = $_POST['email'];
+    $phoneNumber = $_POST['phone_number'];
+    $gender = $_POST['gender'];
+    $date = $_POST['date'];
+
+    $sql = "INSERT INTO cashier (FIRST_NAME, LAST_NAME, USER_NAME, PASS_WORD, EMAIL, PHONE_NO, SALARY, GENDAR, BIRTH_DATE,STA_TUS) VALUES
+    ('$firstName', '$lastName', '$userName', '$password', '$email', '$phoneNumber', '$salary', '$gender', '$date','active')";
+
+    // Execute the SQL query
+    $result = mysqli_query($conn, $sql); // Replace $connection with your actual database connection variable.
+
+    if ($result === TRUE) { // Check the result from mysqli_query, not the redundant query execution with $conn->query
+        // Set a session variable to indicate success
+        $_SESSION['success_message'] = "New Cashier" . "<br> added successfully!";
+    } else {
+        $error_message = "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+
+    // Check if the success_message session variable is set
+    if (isset($_SESSION['success_message'])) {
+        $success_message = $_SESSION['success_message'];
+
+        // Clear the session variable to prevent reappearing after refreshing
+        unset($_SESSION['success_message']);
+    }
+}
 ?>
+
         <!-- SideBar -->
-        <div class="SideBar">
-
-            <ul>
-                <li>
-                    <a href="index.php">
-                        <i class="fas fa-th-large"></i>
-                        <div>Dashboard</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="viewcus.php">
-                        <i class="fas fa-user-check"></i>
-                        <div> Customer</div>
-                    </a>
-                </li>
-         <!--        <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Customer</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="manager.php">
-                        <i class="fas fa-user-tie"></i>
-                        <div>Store Manager</div>
-                    </a>
-                </li>
-              <!--   <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Manager</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="addcashier.php">
-                        <i class="fas fa-cash-register"></i>
-                        <div> Cashier</div>
-                    </a>
-                </li>
-             <!--    <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate Cashier</div>
-                    </a>
-                </li> -->
-                <li>
-                    <a href="sales.php">
-                        <i class="fas fa-briefcase "></i>
-                        <div> SalesMan</div>
-                    </a>
-                </li>
-               <!--   <li>
-                    <a href="#">
-                        <i class="fas fa-user-times"></i>
-                        <div>Deactivate SalesMan</div>
-                    </a>
-                </li> -->
-
-            </ul>
-
-        </div>
+        <?php include "sidebar.php";?>
  <!-- main content for approve customer-->
         
 
@@ -148,32 +136,41 @@ include 'topbar.php';
 
             <!-- Charts -->
             <div class="MainChart2">
-
+            <?php if (isset($success_message)): ?>
+            <div class="notification-container success">
+                <?php echo $success_message; ?>
+            </div>
+            <script>
+                setTimeout(function() {
+                    document.querySelector('.notification-container').style.transform = 'translateY(-50%) translateX(100%)';
+                }, 3000); // 3000 milliseconds (3 seconds)
+            </script>
+        <?php endif; ?>
                 <div class="Chart2">
                     <div>
-                       <form> <h1>ADD NEW CASHIER</h1> <br>
+                    <form action="addcashier.php" method="POST" > <h1>ADD NEW CASHIER</h1> <br>
                             <label>First Name:&nbsp &nbsp</label> <br>
-                            <input type="text" name="" class="box2"> <br>
+                            <input type="text" name="first_name" class="box2" required> <br>
                             <label>Last Name:&nbsp &nbsp</label>  <br> 
-                            <input type="text" name="" class="box2"><br>
+                            <input type="text" name="last_name" class="box2" required><br>
                             <label>User Name:&nbsp &nbsp</label> <br>
-                            <input type="text" name="" class="box2"> <br> 
+                            <input type="text" name="user_name" class="box2" required> <br> 
                             <label>Password:&nbsp &nbsp</label> <br> 
-                            <input type="password" name="" class="box2">  <br>
+                            <input type="password" name="pass_word" class="box2" required>  <br>
                             <label>Email:&nbsp &nbsp</label> <br>
-                            <input type="email" name="" class="box2">  <br>
+                            <input type="email" name="email" class="box2" required>  <br>
                             <label>Phone Number:&nbsp &nbsp</label> <br>
-                            <input type="tel" name="" class="box2"> <br> 
+                            <input type="tel" name="phone_number" class="box2" required> <br> 
                             <label>Salary:&nbsp &nbsp</label> <br>
-                            <input type="number" name="" class="box2"><br>
+                            <input type="number" name="salary" class="box2" required><br>
                             <label>Gender:&nbsp &nbsp</label> <br>
-                            <select class="box2">
-                                <option>Male</option>
-                                <option>Female</option>
+                            <select  name="gender" class="box2">
+                                <option value="male" >Male</option>
+                                <option value="female">Female</option>
                             </select> <br> 
-                            <label>Age:&nbsp &nbsp</label> <br> 
-                            <input type="date" name="" class="box2"> <br>  
-                         <i class="fas fa-save"></i>   <input type="button" name="" value="Save">  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                            <label>Date of birth:&nbsp &nbsp</label> <br> 
+                            <input type="date" name="date" class="box2" required> <br>  
+                         <i class="fas fa-save"></i>   <input type="submit" name="save" value="Save">  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
                             <input type="reset" name="" value="Reset">
                         </form>
                     </div>

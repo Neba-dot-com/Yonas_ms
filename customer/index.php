@@ -137,6 +137,7 @@ success: function(response) {
                 <li><a href="about.php">About</a></li>
                 <li><a href="contact.php">Contact</a></li>
                 <li><a href="order.php">Order</a></li>
+                <li><a href="blog.php" >Blog</a></li>
                 <li>
     <a id="lg-bag" href="cart.php">
     Cart &nbsp;<i class="fas fa-shopping-bag"></i>

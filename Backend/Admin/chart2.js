@@ -7,7 +7,7 @@ var myChart2 = new Chart(ctx2, {
     datasets: [
       {
         label: "Employees",
-        data: [42, 20, 2, 2],
+        data: [100, 20, 2, 2],
         backgroundColor: [
           "#f30707",
           "rgb(19, 0, 230)",
@@ -28,3 +28,4 @@ var myChart2 = new Chart(ctx2, {
     responsive: true,
   },
 });
+

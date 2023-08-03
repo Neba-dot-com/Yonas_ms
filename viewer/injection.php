@@ -31,6 +31,7 @@
   <a href="home.php">home</a>
   <a href="vabout.php">about us</a>
   <a href="vcontact.php">contact us</a>
+  <a href="med.php">Med Guide</a>
   <a href="login.php">Login</a>    
 </header>
 
